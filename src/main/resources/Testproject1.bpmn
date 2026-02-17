@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0ik5t0y" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.43.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="order-process" isExecutable="true">
+    <bpmn:serviceTask id="calculateDiscount" name="Calculate Discount">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="calculate-discount" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ej5cdk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ysjylz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="shipOrder" name="Ship Order">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="ship-order" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ysjylz</bpmn:incoming>
+      <bpmn:outgoing>Flow_099ok6m</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_133geeh">
+      <bpmn:incoming>Flow_099ok6m</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0ysjylz" sourceRef="calculateDiscount" targetRef="shipOrder" />
+    <bpmn:sequenceFlow id="Flow_099ok6m" sourceRef="shipOrder" targetRef="Event_133geeh" />
+    <bpmn:sequenceFlow id="Flow_0ej5cdk" sourceRef="ordermsg" targetRef="calculateDiscount" />
+    <bpmn:startEvent id="ordermsg" name="ordermsg">
+      <bpmn:outgoing>Flow_0ej5cdk</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0mxkr64" messageRef="Message_2c9etcg" />
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_2c9etcg" name="Message_2c9etcg" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="order-process">
+      <bpmndi:BPMNShape id="Activity_185c8b2_di" bpmnElement="calculateDiscount">
+        <dc:Bounds x="290" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1fprzjz_di" bpmnElement="shipOrder">
+        <dc:Bounds x="470" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_133geeh_di" bpmnElement="Event_133geeh">
+        <dc:Bounds x="652" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xqpdto_di" bpmnElement="ordermsg">
+        <dc:Bounds x="182" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="177" y="145" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ej5cdk_di" bpmnElement="Flow_0ej5cdk">
+        <di:waypoint x="218" y="120" />
+        <di:waypoint x="290" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ysjylz_di" bpmnElement="Flow_0ysjylz">
+        <di:waypoint x="390" y="120" />
+        <di:waypoint x="470" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_099ok6m_di" bpmnElement="Flow_099ok6m">
+        <di:waypoint x="570" y="120" />
+        <di:waypoint x="652" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
